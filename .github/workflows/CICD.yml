@@ -20,9 +20,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
         
-      # - name: Install backend dependencies
-      #   run: npm install
-      #   working-directory: moow-api-express
+      - name: List directory contents
+        run: ls -al /home/runner/work/moow-api-express/moow-api-express/moow-api-express
+
+      - name: Install backend dependencies
+        run: npm install
+        working-directory: moow-api-express
 
       - name: Checkout code
         uses: actions/checkout@v2
