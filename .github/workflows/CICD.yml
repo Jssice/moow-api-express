@@ -22,12 +22,18 @@ jobs:
         
       - name: Install backend dependencies
         run: npm install
-        working-directory: ~/var/www/ex-moow/moow-api-express
+        working-directory: moow-api-express
 
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
       - name: Build and deploy backend
         run: pm2 restart expressapi
-        working-directory: ~/var/www/ex-moow/moow-api-express
-      
+        working-directory: moow-api-express
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+
       - name: Deploy to EC2 instance
         run: |
           ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_INSTANCE_IP}} << 'EOF'
