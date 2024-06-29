@@ -17,25 +17,16 @@ jobs:
         with:
           node-version: '20.10'
 
-      - name: Checkout code
-        uses: actions/checkout@v2
-        
       - name: List directory contents
-        run: ls -al /home/runner/work/moow-api-express/moow-api-express/moow-api-express
+        run: ls -al /var/www/ex-moow/moow-api-express
 
       - name: Install backend dependencies
         run: npm install
-        working-directory: moow-api-express
+        working-directory:  /var/www/ex-moow/moow-api-express
 
-      - name: Checkout code
-        uses: actions/checkout@v2
-        
       - name: Build and deploy backend
         run: pm2 restart expressapi
         working-directory: moow-api-express
-
-      - name: Checkout code
-        uses: actions/checkout@v2
 
       - name: Deploy to EC2 instance
         run: |
