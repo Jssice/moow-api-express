@@ -1,0 +1,66 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-backend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20.10'
+
+      - name: Install backend dependencies
+        run: npm install
+        working-directory: ./moow-api-express
+
+      - name: Build and deploy backend
+        run: pm2 reload ecosystem.config.js --only expressapi
+        working-directory: ./moow-api-express
+      
+      - name: Deploy to EC2 instance
+        run: |
+          ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_INSTANCE_IP}} << 'EOF'
+            cd /var/www/ex-moow/moow-api-express
+            npm install
+            pm2 restart expressapi
+            exit
+          EOF
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  
+
+  # build-frontend:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v2
+
+  #     - name: Set up Node.js
+  #       uses: actions/setup-node@v2
+  #       with:
+  #         node-version: '20'
+
+  #     - name: Install frontend dependencies
+  #       run: |
+  #         cd moow-web-next
+  #         npm install
+
+  #     - name: Build frontend
+  #       run: |
+  #         cd moow-web-next
+  #         npm run build
+
+  #     - name: Deploy frontend
+  #       run: |
+  #         cd moow-web-next
+  #         pm2 reload ecosystem.config.js --only nextweb
