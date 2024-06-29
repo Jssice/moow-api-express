@@ -22,7 +22,7 @@ jobs:
 
       - name: Install backend dependencies
         run: npm install
-        working-directory:  /var/www/ex-moow/moow-api-express
+        working-directory: /var/www/ex-moow/moow-api-express
 
       - name: Build and deploy backend
         run: pm2 restart expressapi
