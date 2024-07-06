@@ -16,13 +16,9 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '20.10'
-      - name:  Print  Hello  World 
-        run:  echo  “Hello,  World”
 
       - name: List directory contents
-        run: ls -al /var/www/ex-moow/moow-api-express
-      - name:  Print  Hello  World 
-        run:  echo  “Hello,  World”
+        run: sudo ls -al /var/www/ex-moow/moow-api-express
 
       - name: Install backend dependencies
         run: npm install
