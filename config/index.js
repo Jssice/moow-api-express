@@ -18,8 +18,8 @@ const config = {
   tokenTimeOut: 1000, // Token expiration time in seconds
 
   // Key file paths
-  publicKeyPath: path.resolve(process.cwd(), process.env.PUBLIC_KEY_PATH || 'app/keys/damoon.pem'),
-  privateKeyPath: path.resolve(process.cwd(), process.env.PRIVATE_KEY_PATH || 'app/keys/damoon.pub'),
+  publicKeyPath: path.resolve(process.cwd(), process.env.PUBLIC_KEY_PATH || 'keys/damoon.pem'),
+  privateKeyPath: path.resolve(process.cwd(), process.env.PRIVATE_KEY_PATH || 'keys/damoon.pub'),
 
   // Email configuration
   minEmailSendInterval: 300, // Minimum interval between email sends in seconds
@@ -29,7 +29,7 @@ const config = {
     secure: true,
     auth: {
       user: process.env.MAIL_USER || 'no-reply@moow.cc',
-      pass: process.env.MAIL_PASS
+      pass: process.env.MAIL_PASS,
     },
     displayName: 'Moow',
   },
@@ -46,7 +46,7 @@ const config = {
     maxSize: process.env.LOG_MAX_SIZE || '20m',
     maxFiles: process.env.LOG_MAX_FILES || '14d',
     datePattern: 'YYYY-MM-DD',
-  }
+  },
 };
 
 module.exports = config;

@@ -48,25 +48,10 @@ class AuthController {
 
   async signin(req, res) {
     const { captcha, ...loginInfo } = req.body;
+    const sessionCaptcha = req.session.captcha;
     const userIp = req.ip;
-
-    // Verify captcha
-    if (
-      !AuthService.captchaIsValid(
-        captcha,
-        req.session.captcha,
-        process.env.NODE_ENV
-      )
-    ) {
-      return ResponseHandler.fail(
-        res,
-        STATUS_TYPE.badRequest,
-        STATUS_TYPE.validationError,
-        "Invalid captcha"
-      );
-    }
     // Perform sign-in
-    const userInfo = await AuthService.signin(loginInfo, userIp);
+    const userInfo = await AuthService.signin(loginInfo, userIp, captcha, sessionCaptcha);
     ResponseHandler.success(res, userInfo);
   }
 
@@ -100,10 +85,11 @@ class AuthController {
   }
 
   // send retrieve password email
-  async sendRetrievePasswordEmail(req, res) {
-    const userEmail = req.body.email;
+  async sendRetrieveEmail(req, res) {
+    const { userEmail, captcha } = req.body;
+    const sessionCaptcha = req.session.captcha;
     const userIp = req.ip;
-    const resMessage = await AuthService.sendRetrievePasswordEmail(userEmail, userIp);
+    const resMessage = await AuthService.sendRetrieveEmail(userEmail, userIp, captcha, sessionCaptcha);
     return ResponseHandler.success(res, resMessage);
   }
 }
