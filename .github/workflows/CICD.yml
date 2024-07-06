@@ -17,8 +17,8 @@ jobs:
         with:
           node-version: '20.10'
 
-      - name: List directory contents
-        run: sudo ls -al /var/www/ex-moow/moow-api-express
+      # - name: List directory contents
+      #   run: sudo ls -al /var/www/ex-moow/moow-api-express
 
       - name: Install backend dependencies
         run: npm install
